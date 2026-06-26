@@ -95,7 +95,7 @@ export default function Terminal() {
     const response =
       terminal.responses[cmd] ||
       terminal.responses[cmd.toLowerCase()] || [
-        `command not found: ${cmd}. Type 'help' for available commands.`,
+        `bash: ${cmd}: command not found`,
       ];
     setLines((prev) => [
       ...prev,
