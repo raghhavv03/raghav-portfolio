@@ -1,0 +1,201 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------
+   Theme variables — dark is the default
+   ------------------------------------------------------------ */
+:root,
+.dark {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-tertiary: #21262d;
+  --accent: #00f5ff;
+  --accent-dim: rgba(0, 245, 255, 0.13);
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-accent: #00f5ff;
+  --success: #3fb950;
+  --warning: #d29922;
+}
+
+.light {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f6f8fa;
+  --bg-tertiary: #eaeef2;
+  --accent: #0969da;
+  --accent-dim: rgba(9, 105, 218, 0.12);
+  --text-primary: #1f2328;
+  --text-secondary: #656d76;
+  --text-accent: #0969da;
+  --success: #1a7f37;
+  --warning: #9a6700;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-inter), sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+/* Thin themed scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* ------------------------------------------------------------
+   Glitch animation — runs once on mount, then static
+   ------------------------------------------------------------ */
+.glitch {
+  position: relative;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.glitch::before {
+  color: #00f5ff;
+  animation: glitch-shift 1.2s steps(2, end) 0.3s 2;
+}
+.glitch::after {
+  color: #ff00c8;
+  animation: glitch-shift 1.2s steps(2, end) 0.45s 2 reverse;
+}
+@keyframes glitch-shift {
+  0%, 100% {
+    clip-path: inset(0 0 100% 0);
+    transform: translate(0);
+    opacity: 0.8;
+  }
+  20% {
+    clip-path: inset(20% 0 60% 0);
+    transform: translate(-4px, 2px);
+    opacity: 0.8;
+  }
+  40% {
+    clip-path: inset(50% 0 30% 0);
+    transform: translate(4px, -2px);
+    opacity: 0.8;
+  }
+  60% {
+    clip-path: inset(80% 0 5% 0);
+    transform: translate(-2px, 1px);
+    opacity: 0.8;
+  }
+  80% {
+    clip-path: inset(10% 0 80% 0);
+    transform: translate(2px, -1px);
+    opacity: 0.8;
+  }
+}
+
+/* ------------------------------------------------------------
+   Blinking terminal cursor
+   ------------------------------------------------------------ */
+.terminal-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.1em;
+  background: var(--accent);
+  vertical-align: text-bottom;
+  animation: blink 1s steps(1, end) infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ------------------------------------------------------------
+   Rotating gradient border (About avatar)
+   ------------------------------------------------------------ */
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+.animated-border {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box,
+    conic-gradient(from var(--border-angle), var(--accent), transparent 30%, var(--accent) 50%, transparent 80%, var(--accent)) border-box;
+  animation: border-rotate 5s linear infinite;
+}
+@keyframes border-rotate {
+  to { --border-angle: 360deg; }
+}
+
+/* Pulsing status dot */
+.pulse-dot {
+  position: relative;
+}
+.pulse-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--success);
+  animation: pulse-ring 1.8s ease-out infinite;
+}
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* Bouncing scroll chevron */
+.scroll-chevron {
+  animation: chevron-bounce 1.8s ease-in-out infinite;
+}
+@keyframes chevron-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+
+/* Custom cursor — hide native cursor only when custom one is active */
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor-active,
+  .custom-cursor-active * {
+    cursor: none;
+  }
+}
+
+/* ------------------------------------------------------------
+   Reduced motion — kill it all
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
