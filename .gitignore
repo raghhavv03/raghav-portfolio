@@ -5,8 +5,9 @@ node_modules/
 .next/
 out/
 
-# Environment variables
+# Environment variables — never commit real keys; the example file is the only exception
 .env*
+!.env.example
 
 # Logs
 *.log

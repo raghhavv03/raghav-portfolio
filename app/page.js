@@ -17,6 +17,7 @@ const Terminal = dynamic(() => import('@/components/Terminal'), { ssr: false });
 const CommandPalette = dynamic(() => import('@/components/CommandPalette'), { ssr: false });
 const KeyboardShortcuts = dynamic(() => import('@/components/KeyboardShortcuts'), { ssr: false });
 const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false });
+const ChatWidget = dynamic(() => import('@/components/ChatWidget'), { ssr: false });
 
 export default function Home() {
   return (
@@ -39,6 +40,7 @@ export default function Home() {
       <Footer />
       <CommandPalette />
       <KeyboardShortcuts />
+      <ChatWidget />
     </>
   );
 }
